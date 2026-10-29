@@ -21,6 +21,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="סופיה: דוגמנית בכפטן מקסי סגול (הדמיה) והלוגו של המותג">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#FBF7F1;font-family:'Assistant',system-ui,sans-serif;color:#1F1A17}
@@ -364,6 +366,7 @@ if(getConsent()==='yes') loadAnalytics();
 <input id="cName" type="text" autocomplete="name" style="min-height: 46px; border: 1px solid #CFC4B6; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 16px; background: #FFFFFF">
 <label for="cCity" style="font-size: 15px; font-weight: 700">עיר למשלוח (לא חובה)</label>
 <input id="cCity" type="text" autocomplete="address-level2" style="min-height: 46px; border: 1px solid #CFC4B6; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 16px; background: #FFFFFF">
+<label id="cMeasWrap" hidden style="display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: #4A413B; padding-top: 4px; cursor: pointer"><input id="cMeas" type="checkbox" checked style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: #8E1B5C; flex: none"><span>לצרף להזמנה את המידות שהזנתי, כדי שנוודא התאמה: <span id="cMeasTxt"></span></span></label>
 </div>
 </div>
 <div style="flex: none; border-top: 1px solid #E8DFD3; background: #FBF7F1; padding: 12px 20px max(14px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 6px">
@@ -375,7 +378,7 @@ if(getConsent()==='yes') loadAnalytics();
 <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>
 <span id="cartCount">0</span>
 </button>
-<div id="toast" hidden style="position: fixed; right: 50%; transform: translateX(50%); bottom: 96px; z-index: 70; background: #1F1A17; color: #FFFFFF; padding: 12px 20px; border-radius: 22px; font-size: 16px; font-weight: 700">נוסף לסל 💜</div>
+<button type="button" id="toast" hidden style="position: fixed; right: 50%; transform: translateX(50%); bottom: 96px; z-index: 56; border: none; background: #1F1A17; color: #FFFFFF; padding: 12px 20px; border-radius: 22px; font-family: inherit; font-size: 16px; font-weight: 700; white-space: nowrap; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.25)">נוסף לסל 💜 · <u>לצפייה בסל</u></button>
 <script>
 var WA='https://wa.me/972525004203?text=';function wa(t){return WA+encodeURIComponent(t);}
 var sizes = ['40', '42', '44', '46'];
@@ -467,8 +470,9 @@ renderFields();render();
   var lockY=0;
   function lock(){lockY=window.scrollY||0;var bs=document.body.style;document.documentElement.style.overflow='hidden';bs.position='fixed';bs.top=(-lockY)+'px';bs.left='0';bs.right='0';bs.width='100%';}
   function unlock(){var bs=document.body.style,hs=document.documentElement.style;hs.overflow='';bs.position='';bs.top='';bs.left='';bs.right='';bs.width='';hs.scrollBehavior='auto';window.scrollTo(0,lockY);hs.scrollBehavior='';}
-  function open(){if(!panel.hidden)return;panel.hidden=false;ov.hidden=false;lock();render();document.getElementById('cartScroll').scrollTop=0;}
-  function close(){if(panel.hidden)return;panel.hidden=true;ov.hidden=true;unlock();}
+  document.getElementById('toast').onclick=function(){this.hidden=true;open();};
+  function open(){if(!panel.hidden)return;document.getElementById('toast').hidden=true;panel.hidden=false;ov.hidden=false;lock();render();document.getElementById('cartScroll').scrollTop=0;}
+  function close(){if(panel.hidden)return;panel.hidden=true;ov.hidden=true;unlock();removed=[];render();}
   document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
   function msg(){
     var lines=['היי! אני רוצה להזמין מסופיה 💜',''];
@@ -476,8 +480,16 @@ renderFields();render();
     lines.push('','סה״כ: '+total()+' ₪');
     var n=document.getElementById('cName').value.trim(),c=document.getElementById('cCity').value.trim();
     if(n)lines.push('שם: '+n); if(c)lines.push('עיר: '+c);
+    var m=measText(); if(m&&document.getElementById('cMeas').checked)lines.push('המידות שלי: '+m);
     return WA+encodeURIComponent(lines.join('\n'));
   }
+  function measText(){
+    var v=window.vals||{},p=[];
+    [['height','גובה'],['bust','חזה'],['pelvis','אגן'],['seat','ישבן']].forEach(function(k){var x=parseFloat(v[k[0]]);if(x>0)p.push(k[1]+' '+x);});
+    return p.join(', ');
+  }
+  var removed=[];
+  var qb='width:38px;height:38px;border-radius:19px;border:1px solid #CFC4B6;background:#FFFFFF;color:#1F1A17;cursor:pointer;font-size:19px;line-height:1;padding:0;font-family:inherit';
   function render(){
     document.getElementById('cartCount').textContent=count(); document.getElementById('cartBtn').hidden=count()===0;
     var box=document.getElementById('cartItems'); box.innerHTML='';
@@ -485,10 +497,20 @@ renderFields();render();
     cart.forEach(function(x,i){
       var row=document.createElement('div');
       row.style.cssText='display:flex;gap:12px;align-items:center;background:#FFFFFF;border-radius:14px;padding:10px';
-      row.innerHTML='<img src="'+x.img+'" alt="" style="width:64px;height:64px;object-fit:cover;object-position:top;border-radius:10px;background:#F6F0E4"><div style="flex:1;display:flex;flex-direction:column;gap:4px"><strong style="font-size:16px">'+esc(x.name)+'</strong><span style="font-size:15px;color:#4A413B">'+x.price+' ₪</span></div><div style="display:flex;align-items:center;gap:6px"><button type="button" aria-label="הפחתה" data-q="-1" style="width:36px;height:36px;border-radius:18px;border:1px solid #CFC4B6;background:#FFF;cursor:pointer;font-size:18px">−</button><span style="min-width:18px;text-align:center;font-weight:700">'+x.qty+'</span><button type="button" aria-label="הוספה" data-q="1" style="width:36px;height:36px;border-radius:18px;border:1px solid #CFC4B6;background:#FFF;cursor:pointer;font-size:18px">+</button></div>';
-      row.querySelectorAll('button').forEach(function(b){b.onclick=function(){x.qty+=parseInt(b.dataset.q,10);if(x.qty<=0)cart.splice(i,1);save();render();};});
+      var one=x.qty<=1;
+      row.innerHTML='<img src="'+x.img+'" alt="" style="width:64px;height:64px;object-fit:cover;object-position:top;border-radius:10px;background:#F6F0E4;flex:none"><div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;align-items:flex-start"><strong style="font-size:16px">'+esc(x.name)+'</strong><span style="font-size:15px;color:#4A413B">'+x.price+' ₪</span><button type="button" data-rm="1" style="border:none;background:none;padding:4px 0;font-family:inherit;font-size:14px;color:#6B625C;text-decoration:underline;cursor:pointer">הסרה</button></div><div style="display:flex;align-items:center;gap:6px;flex:none"><button type="button" aria-label="הפחתת כמות" data-q="-1"'+(one?' disabled aria-disabled="true"':'')+' style="'+qb+(one?';opacity:0.35;cursor:default':'')+'">−</button><span style="min-width:18px;text-align:center;font-weight:700">'+x.qty+'</span><button type="button" aria-label="הוספת כמות" data-q="1" style="'+qb+'">+</button></div>';
+      row.querySelectorAll('button[data-q]').forEach(function(b){b.onclick=function(){var q=parseInt(b.dataset.q,10);if(x.qty+q<1)return;x.qty+=q;save();render();};});
+      row.querySelector('button[data-rm]').onclick=function(){cart.splice(i,1);removed.push({item:x,idx:i});save();render();};
       box.appendChild(row);
     });
+    removed.forEach(function(r,j){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px dashed #CFC4B6;border-radius:14px;padding:12px 14px;font-size:15px;color:#6B625C';
+      row.innerHTML='<span>'+esc(r.item.name)+' הוסר מהסל</span><button type="button" style="border:none;background:#1F1A17;color:#FFFFFF;border-radius:18px;min-height:36px;padding:0 14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;flex:none">החזרה לסל</button>';
+      row.querySelector('button').onclick=function(){removed.splice(j,1);cart.splice(Math.min(r.idx,cart.length),0,r.item);save();render();track('add_to_cart',{content_name:r.item.name,value:r.item.price,currency:'ILS',restored:true});};
+      box.appendChild(row);
+    });
+    var mt=measText(),mw=document.getElementById('cMeasWrap');mw.hidden=!mt||!cart.length;document.getElementById('cMeasTxt').textContent=mt;
     document.getElementById('cartTotal').textContent=total()+' ₪';
     var send=document.getElementById('cartSend'); send.href=cart.length?msg():'#';
     send.style.opacity=cart.length?'1':'0.45'; send.style.pointerEvents=cart.length?'auto':'none';
@@ -496,7 +518,7 @@ renderFields();render();
   document.getElementById('cartBtn').onclick=open;
   document.getElementById('cartClose').onclick=close;
   ov.onclick=close;
-  document.getElementById('cName').oninput=render; document.getElementById('cCity').oninput=render;
+  document.getElementById('cName').oninput=render; document.getElementById('cCity').oninput=render; document.getElementById('cMeas').onchange=render;
   document.getElementById('cartSend').addEventListener('click',function(){
     track('checkout_whatsapp',{value:total(),currency:'ILS',num_items:count()});
   });
@@ -508,7 +530,7 @@ renderFields();render();
     if(f)f.qty++; else cart.push({name:name,price:price,qty:1,img:img});
     save(); render();
     track('add_to_cart',{content_name:name,value:price,currency:'ILS'});
-    var t=document.getElementById('toast'); t.hidden=false; clearTimeout(t._h); t._h=setTimeout(function(){t.hidden=true;},1400);
+    var t=document.getElementById('toast'); t.hidden=false; clearTimeout(t._h); t._h=setTimeout(function(){t.hidden=true;},3000);
   });
   render();
 })();
