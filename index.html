@@ -58,6 +58,27 @@ html{scroll-behavior:smooth}[hidden]{display:none!important}
 .card-ask{text-align:center;font-size:15px;font-weight:700;color:#1F7A4D;padding:4px 0}
 .ask-short{display:none}
 .m-only{display:none}
+.card-open{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.card-title button{all:unset;cursor:pointer}
+.card-more{font-size:14px;font-weight:700;color:#8E1B5C;text-decoration:underline;align-self:flex-start;background:none;border:0;padding:0;font-family:inherit;cursor:pointer}
+.qv{position:fixed;z-index:63;background:#FBF7F1;display:flex;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.35);top:50%;left:50%;transform:translate(-50%,-50%);width:min(940px,94vw);max-height:90vh;border-radius:24px}
+.qv-media{flex:1 1 50%;min-width:0;position:relative;background:#F6F0E4}
+.qv-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;height:100%}
+.qv-track::-webkit-scrollbar{display:none}
+.qv-track img{flex:0 0 100%;width:100%;height:100%;max-height:90vh;aspect-ratio:4/5;object-fit:cover;object-position:top;scroll-snap-align:center;display:block}
+.qv-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.qv-dots button{width:9px;height:9px;border-radius:5px;border:0;padding:0;background:rgba(255,255,255,0.6);box-shadow:0 0 0 1px rgba(0,0,0,0.15);cursor:pointer}
+.qv-dots button[aria-current="true"]{background:#1F1A17;width:22px}
+.qv-sim{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.9);font-size:13px;font-weight:700;padding:4px 10px;border-radius:12px}
+.qv-body{flex:1 1 50%;min-width:0;overflow-y:auto;overscroll-behavior:contain;padding:28px 28px 24px;display:flex;flex-direction:column;gap:12px}
+.qv-close{position:absolute;top:12px;left:12px;z-index:2;width:44px;height:44px;border-radius:22px;border:0;background:rgba(255,255,255,0.92);color:#1F1A17;font-size:26px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.qv h2{margin:0;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:32px;line-height:1.15}
+.qv-price{font-size:26px}
+.qv-feel{margin:0;font-size:18px;line-height:1.6;color:#4A413B}
+.qv ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:16px;color:#3A332F}
+.qv li::before{content:'✓';color:#1F7A4D;font-weight:700;margin-inline-end:8px}
+.qv-actions{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.qv-tags{display:flex;flex-wrap:wrap;gap:6px}
 .faq{max-width:760px;margin:0 auto;padding:56px 20px;display:flex;flex-direction:column;gap:12px}
 .faq details{background:#FFFFFF;border:1px solid #E8DFD3;border-radius:16px;padding:0 18px}
 .faq summary{cursor:pointer;list-style:none;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:18px;font-weight:700}
@@ -78,6 +99,15 @@ html{scroll-behavior:smooth}[hidden]{display:none!important}
 #consentYes{border:none;background:#FFFFFF;color:#1F1A17;font-weight:700}
 body.consent-open #cartBtn,body.consent-open .wa-float{bottom:80px!important}
 @media (max-width:720px){
+.qv{top:auto;left:0;right:0;bottom:0;transform:none;width:100%;max-height:92vh;max-height:92dvh;border-radius:22px 22px 0 0;flex-direction:column;overflow-y:auto;overscroll-behavior:contain}
+.qv-media{flex:none}
+.qv-track{height:auto}
+.qv-track img{height:auto;max-height:62vh;max-height:62dvh}
+.qv-body{flex:none;overflow:visible;padding:18px 16px max(18px, env(safe-area-inset-bottom))}
+.qv h2{font-size:26px}
+.qv-price{font-size:22px}
+.qv-feel{font-size:17px}
+.qv-actions{position:sticky;bottom:0;background:#FBF7F1;margin:0 -16px;padding:10px 16px max(10px, env(safe-area-inset-bottom));border-top:1px solid #E8DFD3}
 .nav{display:none}
 .hdr{flex-wrap:nowrap;padding:10px 16px}
 .logo-main{font-size:30px}
@@ -136,7 +166,7 @@ function loadAnalytics(){
 function track(name,details){
   details=details||{};
   if(!analyticsOn) return;
-  var meta={whatsapp_click:'Contact',add_to_cart:'AddToCart',checkout_whatsapp:'InitiateCheckout',fit_check:'CustomizeProduct'}[name];
+  var meta={view_item:'ViewContent',whatsapp_click:'Contact',add_to_cart:'AddToCart',checkout_whatsapp:'InitiateCheckout',fit_check:'CustomizeProduct'}[name];
   if(window.fbq){ if(meta) fbq('track',meta,details); else fbq('trackCustom',name,details); }
   if(window.gtag){ gtag('event',name,details); }
 }
@@ -394,6 +424,22 @@ if(getConsent()==='yes') loadAnalytics();
 <button type="button" id="consentNo">לא, תודה</button>
 <button type="button" id="consentYes">מאשרת</button>
 </div>
+<div id="qvOverlay" hidden style="position: fixed; inset: 0; z-index: 62; background: rgba(31,26,23,0.5)"></div>
+<div id="qv" hidden class="qv" role="dialog" aria-modal="true" aria-labelledby="qvName">
+<button type="button" id="qvClose" class="qv-close" aria-label="סגירה">×</button>
+<div class="qv-media"><div id="qvTrack" class="qv-track"></div><span class="qv-sim">הדמיה</span><div id="qvDots" class="qv-dots"></div></div>
+<div class="qv-body">
+<div id="qvTags" class="qv-tags"></div>
+<h2 id="qvName"></h2>
+<strong id="qvPrice" class="qv-price"></strong>
+<p id="qvFeel" class="qv-feel"></p>
+<ul id="qvPoints"></ul>
+<div class="qv-actions">
+<button type="button" id="qvAdd" class="card-add" data-add="" data-price="" data-img="">הוספה לסל</button>
+<a id="qvAsk" class="card-ask" target="_blank" href="#">שאלה על הפריט? כתבי לנו</a>
+</div>
+</div>
+</div>
 <div id="cartOverlay" hidden style="position: fixed; inset: 0; z-index: 60; background: rgba(31,26,23,0.45)"></div>
 <aside id="cartPanel" hidden aria-label="סל קניות" style="position: fixed; top: 0; right: 0; z-index: 61; width: min(420px, 100%); height: 100%; height: 100dvh; background: #FBF7F1; box-shadow: -10px 0 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; overscroll-behavior: contain">
 <div style="flex: none; display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #E8DFD3">
@@ -470,10 +516,11 @@ var tag='background: #F2EBE1; font-size: 13px; font-weight: 700; padding: 4px 10
 function renderCatalog(){var c=document.getElementById('catalog');c.innerHTML='';var shown=products.filter(function(p){return st.tab==='all'||p.occ===st.tab;});
 document.getElementById('count').textContent=shown.length+' פריטים · כולם מתאימים ממידה 40 עד 46';
 shown.forEach(function(p){var g=p.gallery||[];var gi=st.gal[p.name]||0;var img=g.length?g[gi].src:p.img;
-var h='<article class="card"><img class="card-img" src="'+img+'" alt="'+esc(p.name)+'" loading="lazy">';
+var h='<article class="card"><button type="button" class="card-open" aria-label="'+esc('פרטים: '+p.name)+'"><img class="card-img" src="'+img+'" alt="'+esc(p.name)+'" loading="lazy"></button>';
 if(g.length){h+='<div class="th"></div><span class="th-label">'+g[gi].label+'</span>';}
-h+='<div class="card-body"><div class="card-tags"><span class="tag">One Size · 40–46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'')+'</div><h3 class="card-title">'+p.name+'</h3><p class="card-feel">'+p.feel+'</p>'+(g.length?'<span class="card-note">התמונות על הדוגמניות הן הדמיה</span>':'')+'<div class="card-foot"><strong class="card-price">'+p.price+' ₪</strong><button type="button" class="card-add" data-add="'+esc(p.name)+'" data-price="'+p.price+'">הוספה לסל</button><a class="card-ask" target="_blank" href="'+wa('היי, יש לי שאלה על '+p.name+' ('+p.price+' ₪)')+'"><span class="ask-long">שאלה על הפריט? כתבי לנו</span><span class="ask-short">שאלה? כתבי לנו</span></a></div></div></article>';
+h+='<div class="card-body"><div class="card-tags"><span class="tag">One Size · 40–46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'')+'</div><h3 class="card-title"><button type="button" class="t-open">'+p.name+'</button></h3><p class="card-feel">'+p.feel+'</p><button type="button" class="card-more">לפרטים ותמונות</button>'+(g.length?'<span class="card-note">התמונות על הדוגמניות הן הדמיה</span>':'')+'<div class="card-foot"><strong class="card-price">'+p.price+' ₪</strong><button type="button" class="card-add" data-add="'+esc(p.name)+'" data-price="'+p.price+'">הוספה לסל</button><a class="card-ask" target="_blank" href="'+wa('היי, יש לי שאלה על '+p.name+' ('+p.price+' ₪)')+'"><span class="ask-long">שאלה על הפריט? כתבי לנו</span><span class="ask-short">שאלה? כתבי לנו</span></a></div></div></article>';
 var a=el(h);if(g.length){var th=a.querySelector('.th');g.forEach(function(x,k){var b=el('<button type="button" aria-label="'+esc(x.label)+'" style="padding: 0; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; cursor: pointer; background: #F6F0E4; border: 2px solid '+(k===gi?'#1F1A17':'transparent')+'"><img src="'+x.src+'" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block"></button>');b.onclick=function(){st.gal[p.name]=k;renderCatalog();};th.appendChild(b);});}
+a.querySelectorAll('.card-open,.t-open,.card-more').forEach(function(x){x.onclick=function(){openQV(p,x);};});
 c.appendChild(a);});}
 function renderFields(){var f=document.getElementById('fields');fieldDefs.forEach(function(d){var w=el('<div style="display: flex; flex-direction: column; gap: 6px"><label for="'+d.id+'" style="font-size: 16px; font-weight: 700">'+d.label+'</label><input id="'+d.id+'" type="number" inputmode="numeric" placeholder="'+d.unit+'" style="min-height: 52px; border: 1px solid #CFC4B6; border-radius: 12px; padding: 0 14px; font-family: inherit; font-size: 18px; background: #FBF7F1"></div>');w.querySelector('input').oninput=function(e){vals[d.id]=e.target.value;sizeLink();};f.appendChild(w);});}
 document.getElementById('findBtn').onclick=function(){['err','fits','out'].forEach(function(i){document.getElementById(i).hidden=true;});
@@ -483,6 +530,39 @@ var i=[idx(b,bustMax),idx(p,pelvisMax),idx(t,seatMax)];if(i.indexOf(-1)!==-1){do
 var si=Math.max(i[0],i[1],i[2]);track('fit_check',{result:'fits',size:sizes[si]});
 document.getElementById('sz').textContent=sizes[si];document.getElementById('len').textContent=h<160?'לנמוכות':(h>172?'לגבוהות':'רגיל');document.getElementById('fits').hidden=false;};
 function render(){renderTabs();renderCatalog();}
+var qvP=null,qvRet=null,qvY=0;
+function qvLock(){qvY=window.scrollY||0;var bs=document.body.style;document.documentElement.style.overflow='hidden';bs.position='fixed';bs.top=(-qvY)+'px';bs.left='0';bs.right='0';bs.width='100%';}
+function qvUnlock(){var bs=document.body.style,hs=document.documentElement.style;hs.overflow='';bs.position='';bs.top='';bs.left='';bs.right='';bs.width='';hs.scrollBehavior='auto';window.scrollTo(0,qvY);hs.scrollBehavior='';}
+function qvDot(i){document.querySelectorAll('#qvDots button').forEach(function(b,k){b.setAttribute('aria-current',k===i?'true':'false');});}
+function openQV(p,from){
+  qvP=p;qvRet=from||null;
+  var imgs=(p.gallery&&p.gallery.length)?p.gallery.map(function(x){return x.src;}):[p.img];
+  var tr=document.getElementById('qvTrack'),dots=document.getElementById('qvDots');tr.innerHTML='';dots.innerHTML='';
+  imgs.forEach(function(src,i){var im=document.createElement('img');im.src=src;im.alt=p.name+(imgs.length>1?' · תמונה '+(i+1):'');tr.appendChild(im);
+    if(imgs.length>1){var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','תמונה '+(i+1));d.onclick=function(){im.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});};dots.appendChild(d);}});
+  qvDot(0);tr.scrollLeft=0;
+  tr.onscroll=function(){qvDot(Math.round(Math.abs(tr.scrollLeft)/Math.max(1,tr.clientWidth)));};
+  document.getElementById('qvTags').innerHTML='<span class="tag">One Size · 40–46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'');
+  document.getElementById('qvName').textContent=p.name;
+  document.getElementById('qvPrice').textContent=p.price+' ₪';
+  document.getElementById('qvFeel').textContent=p.feel;
+  var pts=['One Size שמתאים ממידה 40 עד 46'];if(p.elastic)pts.push('מכנס עם גומי רך במותן');pts.push('נתפר במיוחד בשבילך אחרי אישור ההזמנה','משלמים רק אחרי שמדברים איתך');
+  document.getElementById('qvPoints').innerHTML=pts.map(function(t){return '<li>'+t+'</li>';}).join('');
+  var add=document.getElementById('qvAdd');add.dataset.add=p.name;add.dataset.price=p.price;add.dataset.img=imgs[0];
+  document.getElementById('qvAsk').href=wa('היי, יש לי שאלה על '+p.name+' ('+p.price+' ₪)');
+  var q=document.getElementById('qv');q.hidden=false;document.getElementById('qvOverlay').hidden=false;q.scrollTop=0;document.querySelector('.qv-body').scrollTop=0;
+  qvLock();
+  try{history.pushState({qv:1},'');}catch(e){}
+  document.getElementById('qvClose').focus({preventScroll:true});
+  track('view_item',{content_name:p.name,value:p.price,currency:'ILS'});
+}
+function hideQV(){var q=document.getElementById('qv');if(q.hidden)return;q.hidden=true;document.getElementById('qvOverlay').hidden=true;qvUnlock();if(qvRet){try{qvRet.focus({preventScroll:true});}catch(e){}}}
+function closeQV(){if(history.state&&history.state.qv){history.back();}else{hideQV();}}
+window.addEventListener('popstate',function(){hideQV();});
+document.getElementById('qvClose').onclick=closeQV;
+document.getElementById('qvOverlay').onclick=closeQV;
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('qv').hidden)closeQV();});
+document.getElementById('qvAdd').addEventListener('click',function(){setTimeout(closeQV,0);});
 renderFields();render();
 
 (function(){
@@ -557,7 +637,7 @@ renderFields();render();
   document.addEventListener('click',function(e){
     var b=e.target.closest('button[data-add]'); if(!b) return;
     var name=b.dataset.add, price=parseInt(b.dataset.price,10);
-    var card=b.closest('article'), img=card?card.querySelector('img').getAttribute('src'):'';
+    var card=b.closest('article'), img=b.dataset.img||(card?card.querySelector('img').getAttribute('src'):'');
     var f=cart.filter(function(x){return x.name===name;})[0];
     if(f)f.qty++; else cart.push({name:name,price:price,qty:1,img:img});
     save(); render();
