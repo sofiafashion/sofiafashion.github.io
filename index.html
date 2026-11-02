@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://sofiafashion.github.io/images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="סופיה: דוגמנית בכפטן מקסי סגול (הדמיה) והלוגו של המותג">
+<meta property="og:image:alt" content="סופיה: דוגמנית בסט שכבות לבן (הדמיה) והלוגו של המותג">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,10 +38,12 @@ html{scroll-behavior:smooth}[hidden]{display:none!important}
 .hero-h1{margin:0;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:60px;line-height:1.05}
 .hero-lead{margin:0;font-size:20px;line-height:1.65;color:#4A413B;max-width:480px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
-.hero-img{flex:1 1 420px;margin:0;position:relative;display:block}
-.hero-img img{width:100%;height:560px;object-fit:cover;object-position:top;border-radius:280px 280px 20px 20px;display:block;background:#F6F0E4}
+.hero-img{flex:1 1 420px;max-width:520px;margin:0 auto;position:relative;display:block;aspect-ratio:4/5;overflow:hidden;border-radius:280px 280px 20px 20px;background:#F6F0E4}
+.hero-img figure,.hero-img picture{display:block;width:100%;height:100%}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
 .hero-img figcaption{position:absolute;bottom:14px;right:14px;background:rgba(255,255,255,0.9);color:#1F1A17;font-size:13px;font-weight:700;padding:5px 12px;border-radius:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.grid.one{grid-template-columns:minmax(0,380px);justify-content:center}
 .card{background:#FFFFFF;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
 .card-img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;display:block;background:#F6F0E4}
 .th{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 8px 0}
@@ -116,8 +118,7 @@ body.consent-open #cartBtn,body.consent-open .wa-float{bottom:80px!important}
 .hero-txt{display:contents}
 .hero-eyebrow{order:1;font-size:14px}
 .hero-h1{order:2;font-size:44px}
-.hero-img{order:3;flex:none;width:100%}
-.hero-img img{height:auto;aspect-ratio:4/5;border-radius:200px 200px 16px 16px}
+.hero-img{order:3;flex:none;width:100%;max-width:none;border-radius:200px 200px 16px 16px}
 .hero-lead{order:4;font-size:18px}
 .hero-cta{order:5}
 }
@@ -210,10 +211,10 @@ if(getConsent()==='yes') loadAnalytics();
 <a href="#fit" style="border: 2px solid #1F1A17; color: #1F1A17; text-decoration: none; font-size: 18px; font-weight: 700; padding: 13px 30px; border-radius: 30px">יתאים לי?</a>
 </div>
 </div>
-<a class="hero-img" href="#collection" aria-label="לקולקציה">
+<a class="hero-img" href="#collection" data-open="סט שכבות לבן" aria-label="לסט שכבות לבן">
 <figure style="margin: 0; position: relative">
-<img src="images/k03-model-1.jpg" alt="דוגמנית בכפטן מקסי סגול, הדמיה" fetchpriority="high">
-<figcaption>הדמיה · כפטן מקסי סגול · 399 ₪</figcaption>
+<picture><source srcset="images/hero-white-set.webp" type="image/webp"><img src="images/hero-white-set.jpg" alt="דוגמנית בסט שכבות לבן, הדמיה" width="1600" height="2000" fetchpriority="high"></picture>
+<figcaption>הדמיה · סט שכבות לבן · 449 ₪</figcaption>
 </figure>
 </a>
 </div>
@@ -333,7 +334,7 @@ if(getConsent()==='yes') loadAnalytics();
 <div style="max-width: 1200px; margin: 0 auto; padding: 56px 20px; display: flex; flex-direction: column; gap: 26px">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <h2 style="margin: 0; font-family: 'Frank Ruhl Libre', serif; font-weight: 900; font-size: 38px">משלימים את הלוק</h2>
-<span style="font-size: 18px; color: #4A413B">שרשרת אחת, וכפטן פשוט הופך ללוק של ערב.</span>
+<span style="font-size: 18px; color: #4A413B">שרשרת אחת, ובגד פשוט הופך ללוק של ערב.</span>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px">
 <a href="#" style="text-decoration: none; color: #1F1A17; display: flex; flex-direction: column; gap: 10px">
@@ -474,11 +475,11 @@ var bustMax = [94, 98, 104, 110];
 var pelvisMax = [82, 86, 92, 98];
 var seatMax = [102, 106, 112, 118];
 var products = [
-      { name: 'כפטן מקסי סגול', feel: 'נופל מהכתפיים כמו גלימה. הכי קל ללבוש, הכי קשה להוריד.', price: 399, occ: 'day', img: 'images/03.jpg', gallery: [{ src: 'images/k03-model-1.jpg', label: 'הדמיה · ברחוב' }, { src: 'images/03.jpg', label: 'הבגד' }, { src: 'images/k03-model-3.jpg', label: 'הדמיה · באירוע' }, { src: 'images/k03-model-2.jpg', label: 'הדמיה · בבית' }] },
+      { name: 'כפטן מקסי סגול', feel: 'נופל מהכתפיים כמו גלימה. הכי קל ללבוש, הכי קשה להוריד.', price: 399, occ: 'day', img: 'images/03.jpg' },
       { name: 'סט טוניקה אסימטרית ירוק', feel: 'שכבה ארוכה שמאריכה את הגוף, ומכנס רחב שלא לוחץ.', price: 449, occ: 'work', elastic: true, img: 'images/07.jpg' },
       { name: 'סט שכבות אפרסק', feel: 'רך, אוורירי ונשי. מהבוקר במשרד ועד ארוחת ערב.', price: 449, occ: 'work', elastic: true, img: 'images/18.jpg' },
       { name: 'סט אסימטרי טרקוטה', feel: 'צבע חם שמאיר את הפנים, וגזרה שזזה איתך.', price: 449, occ: 'work', elastic: true, img: 'images/30.jpg' },
-      { name: 'סט שכבות לבן', feel: 'קליל ונקי לימי קיץ. נראה טוב עם כל שרשרת.', price: 449, occ: 'day', elastic: true, img: 'images/22.jpg' },
+      { name: 'סט שכבות לבן', feel: 'קליל ונקי לימי קיץ. נראה טוב עם כל שרשרת.', price: 449, occ: 'day', elastic: true, img: 'images/22.jpg', gallery: [{ src: 'images/hero-white-set.jpg', label: 'הדמיה · בסמטה', model: true }, { src: 'images/22.jpg', label: 'הבגד' }] },
       { name: 'סט חולצה מכופתרת ומכנס פליסה', feel: 'אלגנטי למשרד, נוח ליום ארוך של ישיבות.', price: 499, occ: 'work', elastic: true, img: 'images/13.jpg' },
       { name: 'סט שיפון פוקסיה', feel: 'שרוולים שעפים בכל תנועה. צבע שאי אפשר לפספס.', price: 499, occ: 'night', elastic: true, img: 'images/11.jpg' },
       { name: 'שמלת וולנים טורקיז', feel: 'שכבות קלילות וקשירה עדינה במותן. נשית ומלאת חיים.', price: 499, occ: 'night', img: 'images/04.jpg' },
@@ -513,6 +514,13 @@ var fieldDefs = [
       { id: 'seat', label: 'היקף ישבן', unit: 'ס״מ' },
       { id: 'weight', label: 'משקל (לא חובה)', unit: 'ק״ג' }
     ];
+// מוצגים בקולקציה רק בגדים עם לפחות תמונת דוגמנית אחת בגלריה.
+// תמונת דוגמנית = פריט בגלריה עם model: true, או שבשם הקובץ מופיע model (למשל images/n09-model.jpg).
+// בגד בלי תמונה כזו נשאר ברשימה ומוסתר. כשמוסיפים לו תמונת דוגמנית לגלריה, הוא מופיע לבד.
+function isModelImg(g){return g.model===true||/model/i.test(g.src);}
+products.forEach(function(p){p.hasModel=(p.gallery||[]).some(isModelImg);});
+var visible=products.filter(function(p){return p.hasModel;});
+tabDefs=tabDefs.filter(function(d){return d.id==='all'||visible.some(function(p){return p.occ===d.id;});});
 var occNames = { work: 'לעבודה', night: 'לערב ולאירוע', day: 'ליום-יום' };
 var st={tab:'all',gal:{}};var vals={};
 function idx(v,a){for(var i=0;i<a.length;i++)if(v<=a[i])return i;return -1;}
@@ -521,10 +529,10 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 document.querySelectorAll('.wa-general').forEach(function(a){a.href=wa('היי, ראיתי את האתר של סופיה ואשמח לעזרה בבחירה');a.target='_blank';});
 function sizeLink(){var m='היי, אשמח לעזרה בבחירת מידה. המידות שלי:'+(vals.height?'\nגובה: '+vals.height:'')+(vals.bust?'\nחזה: '+vals.bust:'')+(vals.pelvis?'\nאגן: '+vals.pelvis:'')+(vals.seat?'\nישבן: '+vals.seat:'');document.querySelectorAll('.wa-sizes').forEach(function(a){a.href=wa(m);a.target='_blank';});}
 sizeLink();
-function renderTabs(){var t=document.getElementById('tabs');t.innerHTML='';tabDefs.forEach(function(d){var on=d.id===st.tab;var b=el('<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 22px; border: 2px solid '+(on?'#1F1A17':'#CFC4B6')+'; background: '+(on?'#1F1A17':'#FFFFFF')+'; color: '+(on?'#FFFFFF':'#1F1A17')+'; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">'+d.label+'</button>');b.onclick=function(){st.tab=d.id;render();};t.appendChild(b);});}
+function renderTabs(){var t=document.getElementById('tabs');t.innerHTML='';t.parentNode.hidden=tabDefs.length<=2;if(t.parentNode.hidden)return;tabDefs.forEach(function(d){var on=d.id===st.tab;var b=el('<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 22px; border: 2px solid '+(on?'#1F1A17':'#CFC4B6')+'; background: '+(on?'#1F1A17':'#FFFFFF')+'; color: '+(on?'#FFFFFF':'#1F1A17')+'; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">'+d.label+'</button>');b.onclick=function(){st.tab=d.id;render();};t.appendChild(b);});}
 var tag='background: #F2EBE1; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 12px';
-function renderCatalog(){var c=document.getElementById('catalog');c.innerHTML='';var shown=products.filter(function(p){return st.tab==='all'||p.occ===st.tab;});
-document.getElementById('count').textContent=shown.length+' פריטים · כולם מתאימים ממידה 40 עד 46';
+function renderCatalog(){var c=document.getElementById('catalog');c.innerHTML='';var shown=visible.filter(function(p){return st.tab==='all'||p.occ===st.tab;});c.classList.toggle('one',shown.length===1);
+document.getElementById('count').textContent=(shown.length===1?'פריט אחד · מתאים':shown.length+' פריטים · כולם מתאימים')+' ממידה 40 עד 46';
 shown.forEach(function(p){var g=p.gallery||[];var gi=st.gal[p.name]||0;var img=g.length?g[gi].src:p.img;
 var h='<article class="card"><button type="button" class="card-open" aria-label="'+esc('פרטים: '+p.name)+'"><img class="card-img" src="'+img+'" alt="'+esc(p.name)+'" loading="lazy"></button>';
 if(g.length){h+='<div class="th"></div><span class="th-label">'+g[gi].label+'</span>';}
@@ -573,6 +581,7 @@ document.getElementById('qvClose').onclick=closeQV;
 document.getElementById('qvOverlay').onclick=closeQV;
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('qv').hidden)closeQV();});
 document.getElementById('qvAdd').addEventListener('click',function(){setTimeout(closeQV,0);});
+document.querySelectorAll('[data-open]').forEach(function(a){a.onclick=function(e){var p=visible.filter(function(x){return x.name===a.dataset.open;})[0];if(p){e.preventDefault();openQV(p,a);}};});
 renderFields();render();
 
 (function(){
