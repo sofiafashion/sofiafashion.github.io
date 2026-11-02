@@ -47,7 +47,6 @@ html{scroll-behavior:smooth}[hidden]{display:none!important}
 .card{background:#FFFFFF;border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
 .card-img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;display:block;background:#F6F0E4}
 .th{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 8px 0}
-.th-label{padding:6px 12px 0;font-size:14px;font-weight:700;color:#4A413B;text-align:center}
 .card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
 .card-tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{background:#F2EBE1;font-size:13px;font-weight:700;padding:4px 10px;border-radius:12px}
@@ -80,6 +79,7 @@ html{scroll-behavior:smooth}[hidden]{display:none!important}
 .qv ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:16px;color:#3A332F}
 .qv li::before{content:'✓';color:#1F7A4D;font-weight:700;margin-inline-end:8px}
 .qv-actions{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.qv-note{margin:0;font-size:14px;line-height:1.5;color:#6B625C}
 .qv-tags{display:flex;flex-wrap:wrap;gap:6px}
 .faq{max-width:760px;margin:0 auto;padding:56px 20px;display:flex;flex-direction:column;gap:12px}
 .faq details{background:#FFFFFF;border:1px solid #E8DFD3;border-radius:16px;padding:0 18px}
@@ -126,7 +126,6 @@ body.consent-open #cartBtn,body.consent-open .wa-float{bottom:80px!important}
 .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .card{border-radius:16px}
 .th{gap:4px;padding:6px 6px 0}
-.th-label{font-size:12px;padding:4px 6px 0}
 .card-body{padding:10px 10px 12px;gap:6px}
 .card-tags,.card-feel{display:none}
 .card-title{font-size:15px;line-height:1.3}
@@ -182,7 +181,7 @@ if(getConsent()==='yes') loadAnalytics();
 
 <header style="border-bottom: 1px solid #E8DFD3; background: #FBF7F1">
 <div class="hdr">
-<a href="#" style="text-decoration: none; display: flex; flex-direction: column; line-height: 1">
+<a href="./" aria-label="סופיה, לעמוד הבית" style="text-decoration: none; display: flex; flex-direction: column; line-height: 1">
 <span class="logo-main">סופיה</span>
 <span style="font-size: 12px; letter-spacing: 6px; color: #8E1B5C; font-weight: 700; margin-top: 4px">SOFIA</span>
 </a>
@@ -330,7 +329,8 @@ if(getConsent()==='yes') loadAnalytics();
 </div>
 </section>
 
-<section>
+<!-- משלימים את הלוק: מוסתר. להחזיר כשיהיו אביזרים למכירה (למחוק את hidden ולהחליף את [תמונה] וה-href="#" בתמונות ובקישורים אמיתיים) -->
+<section id="accessories" hidden>
 <div style="max-width: 1200px; margin: 0 auto; padding: 56px 20px; display: flex; flex-direction: column; gap: 26px">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <h2 style="margin: 0; font-family: 'Frank Ruhl Libre', serif; font-weight: 900; font-size: 38px">משלימים את הלוק</h2>
@@ -374,7 +374,7 @@ if(getConsent()==='yes') loadAnalytics();
 </details>
 <details>
 <summary>תוך כמה זמן הבגד מגיע?</summary>
-<p>כל בגד נתפר במיוחד בשבילך אחרי שההזמנה מאושרת. את זמן האספקה ואת עלות המשלוח נגיד לך לפני התשלום, כדי שתדעי בדיוק מתי הוא יגיע.</p>
+<p>נתפר במיוחד עבורך. זמן ההכנה והמשלוח מתואמים בוואטסאפ לפני התשלום.</p>
 </details>
 <details>
 <summary>ואם הבגד לא מתאים לי?</summary>
@@ -436,6 +436,7 @@ if(getConsent()==='yes') loadAnalytics();
 <p id="qvFeel" class="qv-feel"></p>
 <ul id="qvPoints"></ul>
 <div class="qv-actions">
+<p class="qv-note">נתפר במיוחד עבורך. זמן ההכנה והמשלוח מתואמים בוואטסאפ לפני התשלום.</p>
 <button type="button" id="qvAdd" class="card-add" data-add="" data-price="" data-img="">הוספה לסל</button>
 <a id="qvAsk" class="card-ask" target="_blank" href="#">שאלה על הפריט? כתבי לנו</a>
 </div>
@@ -479,33 +480,33 @@ var products = [
       { name: 'סט טוניקה אסימטרית ירוק', feel: 'שכבה ארוכה שמאריכה את הגוף, ומכנס רחב שלא לוחץ.', price: 449, occ: 'work', elastic: true, img: 'images/07.jpg' },
       { name: 'סט שכבות אפרסק', feel: 'רך, אוורירי ונשי. מהבוקר במשרד ועד ארוחת ערב.', price: 449, occ: 'work', elastic: true, img: 'images/18.jpg' },
       { name: 'סט אסימטרי טרקוטה', feel: 'צבע חם שמאיר את הפנים, וגזרה שזזה איתך.', price: 449, occ: 'work', elastic: true, img: 'images/30.jpg' },
-      { name: 'סט שכבות לבן', feel: 'קליל ונקי לימי קיץ. נראה טוב עם כל שרשרת.', price: 449, occ: 'day', elastic: true, img: 'images/22.jpg', gallery: [{ src: 'images/hero-white-set.jpg', label: 'בסמטה', model: true }, { src: 'images/22.jpg', label: 'הבגד' }] },
+      { name: 'סט שכבות לבן', feel: 'קליל ונקי לימי קיץ. נראה טוב עם כל שרשרת.', price: 449, occ: 'day', elastic: true, img: 'images/22.jpg', gallery: [{ src: 'images/hero-white-set.jpg', model: true }, { src: 'images/22.jpg' }] },
       { name: 'סט חולצה מכופתרת ומכנס פליסה', feel: 'אלגנטי למשרד, נוח ליום ארוך של ישיבות.', price: 499, occ: 'work', elastic: true, img: 'images/13.jpg' },
       { name: 'סט שיפון פוקסיה', feel: 'שרוולים שעפים בכל תנועה. צבע שאי אפשר לפספס.', price: 499, occ: 'night', elastic: true, img: 'images/11.jpg' },
       { name: 'שמלת וולנים טורקיז', feel: 'שכבות קלילות וקשירה עדינה במותן. נשית ומלאת חיים.', price: 499, occ: 'night', img: 'images/04.jpg' },
       { name: 'שמלת שכבות פטרול', feel: 'חולצה רחבה מעל שכבות זורמות. נראית מושקעת בלי מאמץ.', price: 499, occ: 'night', img: 'images/21.jpg' },
       { name: 'שמלת שכבות כתומה', feel: 'צבע של שמש ושכבות שזזות. לחופשה, לחתונה, לסתם יום טוב.', price: 499, occ: 'day', img: 'images/24.jpg' },
-      { name: 'סט שוליים מטפחת לימון', feel: 'חודים שנופלים בקווים ארוכים בכל צעד, ומכנס רחב שלא לוחץ.', price: 499, occ: 'work', elastic: true, img: 'images/n04-product.jpg', gallery: [{ src: 'images/n04-model.jpg', label: 'במרפסת' }, { src: 'images/n04-product.jpg', label: 'הבגד' }] },
-      { name: 'סט שסעי כתף פלמינגו', feel: 'שסע קטן בכתף שחושף מעט עור, ושרוול עטלף ארוך שמכסה את הזרוע.', price: 499, occ: 'day', elastic: true, img: 'images/n09-product.jpg', gallery: [{ src: 'images/n09-model.jpg', label: 'ברחוב' }, { src: 'images/n09-product.jpg', label: 'הבגד' }] },
-      { name: 'סט טוניקת אומברה שקיעה', feel: 'צבע שיורד מכתום לפוקסיה, מאיר את הפנים ומצמצם למטה.', price: 499, occ: 'day', elastic: true, img: 'images/n10-product.jpg', gallery: [{ src: 'images/n10-model.jpg', label: 'בטיילת' }, { src: 'images/n10-product.jpg', label: 'הבגד' }] },
-      { name: 'סט שולי תחרה מרווה', feel: 'פס תחרה רך בשוליים ובשרוולים, ומכנס רחב שלא לוחץ.', price: 499, occ: 'work', elastic: true, img: 'images/n12-product.jpg', gallery: [{ src: 'images/n12-model.jpg', label: 'במרפסת' }, { src: 'images/n12-product.jpg', label: 'הבגד' }] },
+      { name: 'סט שוליים מטפחת לימון', feel: 'חודים שנופלים בקווים ארוכים בכל צעד, ומכנס רחב שלא לוחץ.', price: 499, occ: 'work', elastic: true, img: 'images/n04-product.jpg', gallery: [{ src: 'images/n04-model.jpg' }, { src: 'images/n04-product.jpg' }] },
+      { name: 'סט שסעי כתף פלמינגו', feel: 'שסע קטן בכתף שחושף מעט עור, ושרוול עטלף ארוך שמכסה את הזרוע.', price: 499, occ: 'day', elastic: true, img: 'images/n09-product.jpg', gallery: [{ src: 'images/n09-model.jpg' }, { src: 'images/n09-product.jpg' }] },
+      { name: 'סט טוניקת אומברה שקיעה', feel: 'צבע שיורד מכתום לפוקסיה, מאיר את הפנים ומצמצם למטה.', price: 499, occ: 'day', elastic: true, img: 'images/n10-product.jpg', gallery: [{ src: 'images/n10-model.jpg' }, { src: 'images/n10-product.jpg' }] },
+      { name: 'סט שולי תחרה מרווה', feel: 'פס תחרה רך בשוליים ובשרוולים, ומכנס רחב שלא לוחץ.', price: 499, occ: 'work', elastic: true, img: 'images/n12-product.jpg', gallery: [{ src: 'images/n12-model.jpg' }, { src: 'images/n12-product.jpg' }] },
       { name: 'סט הדפס פראי ומכנס פסים', feel: 'הדפס שמשדר ביטחון, ומכנס פסים שמאריך את הרגליים.', price: 549, occ: 'day', elastic: true, img: 'images/14.jpg' },
       { name: 'סט קימונו ומכנס סאטן', feel: 'סאטן רך עם הדפס חי. נוח כמו פיג׳מה, נראה כמו אירוע.', price: 549, occ: 'night', elastic: true, img: 'images/01.jpg' },
       { name: 'סט קימונו שיפון ירוק', feel: 'שכבת שיפון ארוכה שמרחפת מאחורייך בכל צעד.', price: 549, occ: 'night', elastic: true, img: 'images/19.jpg' },
       { name: 'שמלת מקסי עם חגורה', feel: 'חגורה רחבה שמגדירה מותן, וחצאית שזורמת עד הרצפה.', price: 549, occ: 'night', img: 'images/06.jpg' },
-      { name: 'שמלת שיפון דו־שכבתית קורל־חרדל', feel: 'שיפון קורל מעל בטנת חרדל, וגוון חם שמשתנה בכל תנועה.', price: 549, occ: 'day', img: 'images/n03-product.jpg', gallery: [{ src: 'images/n03-model.jpg', label: 'בבית קפה' }, { src: 'images/n03-product.jpg', label: 'הבגד' }] },
-      { name: 'שמלת קייפ שיפון כחול רויאל', feel: 'קייפ שיפון שמרחף על הכתפיים והזרועות, ושמלה ישרה שמאריכה את הקו.', price: 549, occ: 'night', img: 'images/n01-product.jpg', gallery: [{ src: 'images/n01-model.jpg', label: 'באירוע' }, { src: 'images/n01-product.jpg', label: 'הבגד' }] },
-      { name: 'סט טוניקת שרוולי פעמון בורדו', feel: 'שרוול פעמון שנפתח מהמרפק בכל תנועה, ומכנס רחב שלא לוחץ.', price: 549, occ: 'work', elastic: true, img: 'images/n05-product.jpg', gallery: [{ src: 'images/n05-model.jpg', label: 'בערב' }, { src: 'images/n05-product.jpg', label: 'הבגד' }] },
-      { name: 'שמלת פליסה מנצנצת שמפניה', feel: 'פליסה עם נצנוץ עדין שנפתחת בכל צעד. מוכנה לכל אירוע.', price: 549, occ: 'night', img: 'images/n06-product.jpg', gallery: [{ src: 'images/n06-model.jpg', label: 'בחתונה' }, { src: 'images/n06-product.jpg', label: 'הבגד' }] },
-      { name: 'שמלת וולן אלכסוני אדום', feel: 'וולן שיפון שחוצה את הגוף באלכסון ויוצר קו ארוך ומחמיא.', price: 549, occ: 'day', img: 'images/n08-product.jpg', gallery: [{ src: 'images/n08-model.jpg', label: 'בבית קפה' }, { src: 'images/n08-product.jpg', label: 'הבגד' }] },
-      { name: 'שמלת מעטפת שיפון לבנדר', feel: 'מעטפת V עם קשירה בצד שמגדירה מותן בלי ללחוץ.', price: 549, occ: 'night', img: 'images/n11-product.jpg', gallery: [{ src: 'images/n11-model.jpg', label: 'באירוע' }, { src: 'images/n11-product.jpg', label: 'הבגד' }] },
+      { name: 'שמלת שיפון דו־שכבתית קורל־חרדל', feel: 'שיפון קורל מעל בטנת חרדל, וגוון חם שמשתנה בכל תנועה.', price: 549, occ: 'day', img: 'images/n03-product.jpg', gallery: [{ src: 'images/n03-model.jpg' }, { src: 'images/n03-product.jpg' }] },
+      { name: 'שמלת קייפ שיפון כחול רויאל', feel: 'קייפ שיפון שמרחף על הכתפיים והזרועות, ושמלה ישרה שמאריכה את הקו.', price: 549, occ: 'night', img: 'images/n01-product.jpg', gallery: [{ src: 'images/n01-model.jpg' }, { src: 'images/n01-product.jpg' }] },
+      { name: 'סט טוניקת שרוולי פעמון בורדו', feel: 'שרוול פעמון שנפתח מהמרפק בכל תנועה, ומכנס רחב שלא לוחץ.', price: 549, occ: 'work', elastic: true, img: 'images/n05-product.jpg', gallery: [{ src: 'images/n05-model.jpg' }, { src: 'images/n05-product.jpg' }] },
+      { name: 'שמלת פליסה מנצנצת שמפניה', feel: 'פליסה עם נצנוץ עדין שנפתחת בכל צעד. מוכנה לכל אירוע.', price: 549, occ: 'night', img: 'images/n06-product.jpg', gallery: [{ src: 'images/n06-model.jpg' }, { src: 'images/n06-product.jpg' }] },
+      { name: 'שמלת וולן אלכסוני אדום', feel: 'וולן שיפון שחוצה את הגוף באלכסון ויוצר קו ארוך ומחמיא.', price: 549, occ: 'day', img: 'images/n08-product.jpg', gallery: [{ src: 'images/n08-model.jpg' }, { src: 'images/n08-product.jpg' }] },
+      { name: 'שמלת מעטפת שיפון לבנדר', feel: 'מעטפת V עם קשירה בצד שמגדירה מותן בלי ללחוץ.', price: 549, occ: 'night', img: 'images/n11-product.jpg', gallery: [{ src: 'images/n11-model.jpg' }, { src: 'images/n11-product.jpg' }] },
       { name: 'שמלת אקורדיון עם פרנזים', feel: 'פליסה שזזה ופרנזים בקצוות. הבגד שכולן ישאלו עליו.', price: 599, occ: 'night', img: 'images/12.jpg' }
     ];
 var tabDefs = [
       { id: 'all', label: 'הכל' },
       { id: 'work', label: 'לעבודה' },
       { id: 'day', label: 'ליום-יום' },
-      { id: 'night', label: 'לערב ולאירוע' }
+      { id: 'night', label: 'לערב' }
     ];
 var fieldDefs = [
       { id: 'height', label: 'גובה', unit: 'ס״מ' },
@@ -535,9 +536,9 @@ function renderCatalog(){var c=document.getElementById('catalog');c.innerHTML=''
 document.getElementById('count').textContent=(shown.length===1?'פריט אחד · מתאים':shown.length+' פריטים · כולם מתאימים')+' ממידה 40 עד 46';
 shown.forEach(function(p){var g=p.gallery||[];var gi=st.gal[p.name]||0;var img=g.length?g[gi].src:p.img;
 var h='<article class="card"><button type="button" class="card-open" aria-label="'+esc('פרטים: '+p.name)+'"><img class="card-img" src="'+img+'" alt="'+esc(p.name)+'" loading="lazy"></button>';
-if(g.length){h+='<div class="th"></div><span class="th-label">'+g[gi].label+'</span>';}
-h+='<div class="card-body"><div class="card-tags"><span class="tag">One Size · 40–46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'')+'</div><h3 class="card-title"><button type="button" class="t-open">'+p.name+'</button></h3><p class="card-feel">'+p.feel+'</p><button type="button" class="card-more">לפרטים ותמונות</button>'+'<div class="card-foot"><strong class="card-price">'+p.price+' ₪</strong><button type="button" class="card-add" data-add="'+esc(p.name)+'" data-price="'+p.price+'">הוספה לסל</button><a class="card-ask" target="_blank" href="'+wa('היי, יש לי שאלה על '+p.name+' ('+p.price+' ₪)')+'"><span class="ask-long">שאלה על הפריט? כתבי לנו</span><span class="ask-short">שאלה? כתבי לנו</span></a></div></div></article>';
-var a=el(h);if(g.length){var th=a.querySelector('.th');g.forEach(function(x,k){var b=el('<button type="button" aria-label="'+esc(x.label)+'" style="padding: 0; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; cursor: pointer; background: #F6F0E4; border: 2px solid '+(k===gi?'#1F1A17':'transparent')+'"><img src="'+x.src+'" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block"></button>');b.onclick=function(){st.gal[p.name]=k;renderCatalog();};th.appendChild(b);});}
+if(g.length){h+='<div class="th"></div>';}
+h+='<div class="card-body"><div class="card-tags"><span class="tag">One Size · 40 עד 46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'')+'</div><h3 class="card-title"><button type="button" class="t-open">'+p.name+'</button></h3><p class="card-feel">'+p.feel+'</p><button type="button" class="card-more">לפרטים ותמונות</button>'+'<div class="card-foot"><strong class="card-price">'+p.price+' ₪</strong><button type="button" class="card-add" data-add="'+esc(p.name)+'" data-price="'+p.price+'">הוספה לסל</button><a class="card-ask" target="_blank" href="'+wa('היי, יש לי שאלה על '+p.name+' ('+p.price+' ₪)')+'"><span class="ask-long">שאלה על הפריט? כתבי לנו</span><span class="ask-short">שאלה? כתבי לנו</span></a></div></div></article>';
+var a=el(h);if(g.length){var th=a.querySelector('.th');g.forEach(function(x,k){var b=el('<button type="button" aria-label="'+esc('תמונה '+(k+1))+'" style="padding: 0; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; cursor: pointer; background: #F6F0E4; border: 2px solid '+(k===gi?'#1F1A17':'transparent')+'"><img src="'+x.src+'" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block"></button>');b.onclick=function(){st.gal[p.name]=k;renderCatalog();};th.appendChild(b);});}
 a.querySelectorAll('.card-open,.t-open,.card-more').forEach(function(x){x.onclick=function(){openQV(p,x);};});
 c.appendChild(a);});}
 function renderFields(){var f=document.getElementById('fields');fieldDefs.forEach(function(d){var w=el('<div style="display: flex; flex-direction: column; gap: 6px"><label for="'+d.id+'" style="font-size: 16px; font-weight: 700">'+d.label+'</label><input id="'+d.id+'" type="number" inputmode="numeric" placeholder="'+d.unit+'" style="min-height: 52px; border: 1px solid #CFC4B6; border-radius: 12px; padding: 0 14px; font-family: inherit; font-size: 18px; background: #FBF7F1"></div>');w.querySelector('input').oninput=function(e){vals[d.id]=e.target.value;sizeLink();};f.appendChild(w);});}
@@ -560,7 +561,7 @@ function openQV(p,from){
     if(imgs.length>1){var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','תמונה '+(i+1));d.onclick=function(){im.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});};dots.appendChild(d);}});
   qvDot(0);tr.scrollLeft=0;
   tr.onscroll=function(){qvDot(Math.round(Math.abs(tr.scrollLeft)/Math.max(1,tr.clientWidth)));};
-  document.getElementById('qvTags').innerHTML='<span class="tag">One Size · 40–46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'');
+  document.getElementById('qvTags').innerHTML='<span class="tag">One Size · 40 עד 46</span><span class="tag">'+occNames[p.occ]+'</span>'+(p.elastic?'<span class="tag">גומי במותן</span>':'');
   document.getElementById('qvName').textContent=p.name;
   document.getElementById('qvPrice').textContent=p.price+' ₪';
   document.getElementById('qvFeel').textContent=p.feel;
